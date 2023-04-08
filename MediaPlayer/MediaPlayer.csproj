@@ -1,0 +1,38 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Resources\double_left_arrows.png" />
+    <None Remove="Resources\double_right_arrows.png" />
+    <None Remove="Resources\load_error.png" />
+    <None Remove="Resources\load_file.png" />
+    <None Remove="Resources\pause.png" />
+    <None Remove="Resources\play.png" />
+    <None Remove="Resources\play_speed.png" />
+    <None Remove="Resources\replay.png" />
+    <None Remove="Resources\volume_high.png" />
+    <None Remove="Resources\volume_low.png" />
+    <None Remove="Resources\volume_off.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\double_left_arrows.png" />
+    <Resource Include="Resources\double_right_arrows.png" />
+    <Resource Include="Resources\load_error.png" />
+    <Resource Include="Resources\load_file.png" />
+    <Resource Include="Resources\pause.png" />
+    <Resource Include="Resources\play.png" />
+    <Resource Include="Resources\play_speed.png" />
+    <Resource Include="Resources\replay.png" />
+    <Resource Include="Resources\volume_high.png" />
+    <Resource Include="Resources\volume_low.png" />
+    <Resource Include="Resources\volume_off.png" />
+  </ItemGroup>
+
+</Project>
