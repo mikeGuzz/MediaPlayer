@@ -28,7 +28,8 @@ namespace MediaPlayer
 
         private readonly double[] playbackSpeedValues = new double[] { 0.5, 1, 1.25, 1.5, 1.75, 2 };
         private readonly BitmapSource pauseImg, playImg, volumeHighImg, volumeLowImg, volumeOffImg, replayImg;
-        private readonly BitmapSource scaledPauseImg, scaledReplayImg;
+        private readonly BitmapSource scaledVolumeHighImg, scaledPauseImg, scaledReplayImg;
+        private BitmapSource? startBitmap;
 
         private bool isMediaPlay;
         private bool isEnd;
@@ -51,18 +52,18 @@ namespace MediaPlayer
             volumeOffImg = new BitmapImage(new Uri("pack://application:,,,/Resources/volume_off.png"));
             replayImg = new BitmapImage(new Uri("pack://application:,,,/Resources/replay.png"));
 
+            scaledVolumeHighImg = new TransformedBitmap(volumeHighImg, new ScaleTransform(1.25, 1.25));
             scaledPauseImg = new TransformedBitmap(pauseImg, new ScaleTransform(1.25, 1.25));
             scaledReplayImg = new TransformedBitmap(replayImg, new ScaleTransform(1.25, 1.25));
 
             positionTimer.Interval = new TimeSpan(0, 0, 1);
-            positionTimer.Tick += UpdatePostionSlider;
+            positionTimer.Tick += UpdatePositionSlider;
         }
 
         private void mediaElement_MediaFailed(object sender, ExceptionRoutedEventArgs e)
         {
             MessageBox.Show(e.ErrorException.Message, "Media failed", MessageBoxButton.OK, MessageBoxImage.Error);
             stateImage.Source = new TransformedBitmap(new BitmapImage(new Uri(@"pack://application:,,,/Resources/load_error.png")), new ScaleTransform(1.25, 1.25));
-            stateImage.Visibility = Visibility.Visible;
         }
 
         private void UpdateTitle()
@@ -70,7 +71,7 @@ namespace MediaPlayer
             Title = fileName + $" - Media Player";
         }
 
-        private void UpdatePostionSlider(object? sender, EventArgs e)
+        private void UpdatePositionSlider(object? sender, EventArgs e)
         {
             position_slider.Value = mediaElement.Position.TotalSeconds;
         }
@@ -81,14 +82,14 @@ namespace MediaPlayer
                 return;
             mediaElement.Source = new Uri(filePath);
             this.filePath = filePath;
-            UpdateTitle();
             position_slider.Value = mediaElement.Position.TotalSeconds;
-            mediaElement.Play();
+            UpdateTitle();
+            Reset();
         }
 
         private void Play()
         {
-            stateImage.Visibility = Visibility.Hidden;
+            stateImage.Source = startBitmap;
             pauseButtonImage.Source = pauseImg;
             mediaElement.Play();
             positionTimer.Start();
@@ -100,7 +101,6 @@ namespace MediaPlayer
             if (!mediaElement.CanPause)
                 return;
             stateImage.Source = scaledPauseImg;
-            stateImage.Visibility = Visibility.Visible;
             pauseButtonImage.Source = playImg;
             mediaElement.Pause();
             positionTimer.Stop();
@@ -129,7 +129,7 @@ namespace MediaPlayer
                 Play();
             if (e.Canceled)
             {
-                UpdatePostionSlider(sender, e);
+                UpdatePositionSlider(sender, e);
                 return;
             }
             mediaElement.Position = TimeSpan.FromSeconds(position_slider.Value);          
@@ -142,7 +142,7 @@ namespace MediaPlayer
             if ((mediaElement.Position += TimeSpan.FromSeconds(5)) > mediaElement.NaturalDuration)
                 mediaElement.Position = TimeSpan.FromSeconds(mediaElement.NaturalDuration.TimeSpan.TotalSeconds);
             Play();
-            UpdatePostionSlider(sender, e);
+            UpdatePositionSlider(sender, e);
         }
 
         private void moveL_button_Click(object sender, RoutedEventArgs e)
@@ -151,7 +151,7 @@ namespace MediaPlayer
                 mediaElement.Position = TimeSpan.Zero;
             isEnd = false;
             Play();
-            UpdatePostionSlider(sender, e);
+            UpdatePositionSlider(sender, e);
         }
 
         private void speed_comboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -167,16 +167,17 @@ namespace MediaPlayer
 
         private void mediaElement_MediaOpened(object sender, RoutedEventArgs e)
         {
+            stateImage.Source = (startBitmap = !mediaElement.HasVideo ? scaledVolumeHighImg : null);
+
             pause_button.IsEnabled = true;
             moveL_button.IsEnabled = true;
             moveR_button.IsEnabled = true;
             position_slider.IsEnabled = true;
 
             position_slider.Maximum = mediaElement.NaturalDuration.TimeSpan.TotalSeconds;
-            UpdatePostionSlider(sender, e);
-            Reset();
+            UpdatePositionSlider(sender, e);
 
-            if (!File.Exists(filePath) || recent_stackPanel.Children.Cast<RadioButton>().Any(i => ((FileInfo)i.Tag).FullName == filePath))
+            if (recent_stackPanel.Children.Cast<RadioButton>().Any(i => ((FileInfo)i.Tag).FullName == filePath))
                 return;
             var btn = new RadioButton();
             btn.Content = filePath;

@@ -5,15 +5,17 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MediaPlayer"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="382" Width="597"
+        Icon="pack://application:,,,/Resources/main_window_icon.png"
+        MinWidth="510" MinHeight="100">
     <Grid x:Name="mainGrid">
         <Grid.RowDefinitions>
             <RowDefinition/>
             <RowDefinition Height="20"/>
             <RowDefinition Height="35"/>
         </Grid.RowDefinitions>
-        
-        <Grid Background="Black">
+
+        <Grid Background="White">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" MinWidth="80"/>
                 <ColumnDefinition Width="4"/>
@@ -23,12 +25,10 @@
             <Grid Background="White">
                 <Expander x:Name="recent_expander"
                           Header="Recent Files">
-                    <StackPanel x:Name="recent_stackPanel">
-                        
-                    </StackPanel>
+                    <StackPanel x:Name="recent_stackPanel"/>
                 </Expander>
             </Grid>
-            
+
 
             <GridSplitter Grid.Column="1" 
                           Width="4"
@@ -41,7 +41,6 @@
                           ></MediaElement>
             <Image x:Name="stateImage"
                    Stretch="None"
-                   Visibility="Hidden"
                    Grid.Column="2"></Image>
         </Grid>
 
@@ -128,7 +127,7 @@
                         HorizontalAlignment="Right"
                         MinWidth="60"
                         VerticalAlignment="Center"
-                        Thumb.DragDelta="volume_slider_DragDelta" Maximum="1" Value="0.5" LargeChange="0.25" SmallChange="0.05"></Slider>
+                        Thumb.DragDelta="volume_slider_DragDelta" Maximum="1" Value="0.5" LargeChange="0" SmallChange="0"></Slider>
             </WrapPanel>
         </Grid>
     </Grid>

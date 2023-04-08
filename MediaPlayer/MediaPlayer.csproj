@@ -12,6 +12,7 @@
     <None Remove="Resources\double_right_arrows.png" />
     <None Remove="Resources\load_error.png" />
     <None Remove="Resources\load_file.png" />
+    <None Remove="Resources\main_window_icon.png" />
     <None Remove="Resources\pause.png" />
     <None Remove="Resources\play.png" />
     <None Remove="Resources\play_speed.png" />
@@ -26,6 +27,7 @@
     <Resource Include="Resources\double_right_arrows.png" />
     <Resource Include="Resources\load_error.png" />
     <Resource Include="Resources\load_file.png" />
+    <Resource Include="Resources\main_window_icon.png" />
     <Resource Include="Resources\pause.png" />
     <Resource Include="Resources\play.png" />
     <Resource Include="Resources\play_speed.png" />
