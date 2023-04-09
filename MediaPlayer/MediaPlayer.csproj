@@ -16,6 +16,7 @@
     <None Remove="Resources\pause.png" />
     <None Remove="Resources\play.png" />
     <None Remove="Resources\play_speed.png" />
+    <None Remove="Resources\repeat.png" />
     <None Remove="Resources\replay.png" />
     <None Remove="Resources\volume_high.png" />
     <None Remove="Resources\volume_low.png" />
@@ -31,6 +32,7 @@
     <Resource Include="Resources\pause.png" />
     <Resource Include="Resources\play.png" />
     <Resource Include="Resources\play_speed.png" />
+    <Resource Include="Resources\repeat.png" />
     <Resource Include="Resources\replay.png" />
     <Resource Include="Resources\volume_high.png" />
     <Resource Include="Resources\volume_low.png" />

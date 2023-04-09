@@ -17,7 +17,7 @@
 
         <Grid Background="White">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" MinWidth="80"/>
+                <ColumnDefinition Width="*" MinWidth="90"/>
                 <ColumnDefinition Width="4"/>
                 <ColumnDefinition Width="7*" MinWidth="220"/>
             </Grid.ColumnDefinitions>
@@ -29,19 +29,21 @@
                 </Expander>
             </Grid>
 
-
             <GridSplitter Grid.Column="1" 
                           Width="4"
                           HorizontalAlignment="Stretch"/>
-
             <MediaElement x:Name="mediaElement"
                           LoadedBehavior="Manual"
                           MediaFailed="mediaElement_MediaFailed"
-                          Grid.Column="2" MediaOpened="mediaElement_MediaOpened" MediaEnded="mediaElement_MediaEnded"
-                          ></MediaElement>
+                          Grid.Column="2"
+                          MediaOpened="mediaElement_MediaOpened" 
+                          MediaEnded="mediaElement_MediaEnded" 
+                          MouseLeftButtonUp="mediaElement_MouseLeftButtonUp"/>
             <Image x:Name="stateImage"
                    Stretch="None"
-                   Grid.Column="2"></Image>
+                   Grid.Column="2" 
+                   MouseLeftButtonUp="stateImage_MouseLeftButtonUp">
+            </Image>
         </Grid>
 
         <Slider x:Name="position_slider"
@@ -51,7 +53,7 @@
                 Thumb.DragStarted="position_slider_DragStarted"
                 Thumb.DragCompleted="position_slider_DragCompleted" 
                 LargeChange="0" SmallChange="0"
-                IsEnabled="false"/>
+                IsEnabled="false" KeyUp="position_slider_KeyUp"/>
 
         <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
@@ -62,14 +64,22 @@
                        VerticalAlignment="Center">
                 <Button x:Name="openFile_button"
                          FontSize="15"
-                         Margin="8, 3, 3, 3" Click="openFile_button_Click" Background="{x:Null}">
+                         Margin="8, 3, 3, 3" Click="openFile_button_Click" Foreground="#FF838383">
                     <Image Source="pack://application:,,,/Resources/load_file.png"/>
                     <Button.Resources>
                         <Style TargetType="Border">
-                            <Setter Property="CornerRadius" Value="5"></Setter>
+                            <Setter Property="CornerRadius" Value="5"/>
                         </Style>
                     </Button.Resources>
                 </Button>
+
+                <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}"/>
+
+                <CheckBox x:Name="repeat_checkBox"
+                          VerticalAlignment="Center"
+                          Margin="5, 0, 3, 0">
+                </CheckBox>
+                <Image Margin="0, 5, 5, 5" Source="pack://application:,,,/Resources/repeat.png"/>
             </WrapPanel>
 
             <WrapPanel HorizontalAlignment="Center"
@@ -78,33 +88,33 @@
                 <Button x:Name="moveL_button"
                     IsEnabled="false"
                     FontSize="15"
-                    Margin="3" Background="{x:Null}" Click="moveL_button_Click">
+                    Margin="3" Click="moveL_button_Click">
                     <Image Source="pack://application:,,,/Resources/double_left_arrows.png"/>
                     <Button.Resources>
                         <Style TargetType="Border">
-                            <Setter Property="CornerRadius" Value="5"></Setter>
+                            <Setter Property="CornerRadius" Value="5"/>
                         </Style>
                     </Button.Resources>
                 </Button>
                 <Button x:Name="pause_button"
                     IsEnabled="false"
                     FontSize="15"
-                    Margin="3" Click="pause_button_Click" Background="{x:Null}">
+                    Margin="3" Click="pause_button_Click">
                     <Image x:Name="pauseButtonImage" Source="pack://application:,,,/Resources/play.png"/>
                     <Button.Resources>
                         <Style TargetType="Border">
-                            <Setter Property="CornerRadius" Value="5"></Setter>
+                            <Setter Property="CornerRadius" Value="5"/>
                         </Style>
                     </Button.Resources>
                 </Button>
                 <Button x:Name="moveR_button"
                     IsEnabled="false"
                     FontSize="15"
-                    Margin="3" Background="{x:Null}" Click="moveR_button_Click">
+                    Margin="3" Click="moveR_button_Click">
                     <Image Source="pack://application:,,,/Resources/double_right_arrows.png"/>
                     <Button.Resources>
                         <Style TargetType="Border">
-                            <Setter Property="CornerRadius" Value="5"></Setter>
+                            <Setter Property="CornerRadius" Value="5"/>
                         </Style>
                     </Button.Resources>
                 </Button>
@@ -116,9 +126,11 @@
                 <Image Margin="5"
                        Source="pack://application:,,,/Resources/play_speed.png"/>
                 <ComboBox x:Name="speed_comboBox"
-                          FontSize="14"
-                          Margin="5"
-                          MinWidth="60" SelectionChanged="speed_comboBox_SelectionChanged"></ComboBox>
+                          VerticalAlignment="Center"
+                          FontSize="12"
+                          Margin="0, 7, 7, 7"
+                          MinWidth="50" SelectionChanged="speed_comboBox_SelectionChanged"/>
+                <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}"/>
                 <Image x:Name="volume_image"
                        Margin="3"
                        Source="pack://application:,,,/Resources/volume_high.png"/>
@@ -127,7 +139,7 @@
                         HorizontalAlignment="Right"
                         MinWidth="60"
                         VerticalAlignment="Center"
-                        Thumb.DragDelta="volume_slider_DragDelta" Maximum="1" Value="0.5" LargeChange="0" SmallChange="0"></Slider>
+                        Thumb.DragDelta="volume_slider_DragDelta" Maximum="1" Value="0.5" LargeChange="0" SmallChange="0"/>
             </WrapPanel>
         </Grid>
     </Grid>
